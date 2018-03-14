@@ -19,7 +19,6 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
-	"time"
 )
 
 type system struct {
@@ -29,21 +28,21 @@ type system struct {
 	iterations int
 }
 
-func (system) run() {
+func (s system) run() {
 	teststring := s.axiom
 	substring := ""
 	for n := 1; n <= s.iterations; n++ {
 		for _, r := range teststring {
-			_, ok := constants[string(r)] //checking constants map for existence
+			_, ok := s.constants[string(r)] //checking constants map for existence
 			if ok {
 				substring += string(r)
-				break //add only the value from the const
+			} else {
+				substring += rules[string(r)]
 			}
-			substring += rules[string(r)]
 		}
 		teststring += substring
+		fmt.Println("\r", substring)
 	}
-	fmt.Print(teststring)
 }
 
 func runsystem() *cobra.Command {
@@ -54,11 +53,11 @@ func runsystem() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			sys_to_run := system{
 				axiom:      "a",
-				iterations: 12,
+				iterations: 6,
 				vars:       rules,
 				constants:  constantset,
 			}
-			sysrun.run(rules)
+			sys_to_run.run()
 			return nil
 		},
 	}

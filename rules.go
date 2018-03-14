@@ -1,9 +1,10 @@
 package main
 
 var rules = map[string]string{
-	"a": "a_b",
-	"b": "bc_ab",
-	"c": "ca_b",
+	"a": "b",
+	"b": "c_ab",
+	"c": "c!da_b",
+	"d": "ca!_b",
 }
 var constantset = map[string]struct{}{
 	" ": struct{}{},
