@@ -17,58 +17,77 @@ package main
 
 import (
 	"fmt"
+	"github.com/fogleman/gg"
 	"github.com/spf13/cobra"
 	"os"
 )
+
+var iters int
+var outfile string
+var fullgrammer string
 
 type system struct {
 	vars       map[string]string
 	constants  map[string]struct{}
 	axiom      string //the start, must be one of the keys in the rules
 	iterations int
+	drawing    *gg.Context
+	outfile    string
 }
 
 func (s system) run() {
-	teststring := s.axiom
-	substring := ""
-	for n := 1; n <= s.iterations; n++ {
-		for _, r := range teststring {
+	substring := s.axiom
+	for n := 0; n <= s.iterations; n++ {
+		for _, r := range substring {
 			_, ok := s.constants[string(r)] //checking constants map for existence
 			if ok {
 				substring += string(r)
 			} else {
 				substring += rules[string(r)]
 			}
+			fmt.Println(substring)
 		}
-		teststring += substring
-		fmt.Println("\r", substring)
 	}
+	s.drawing.SavePNG(s.outfile)
 }
 
-func runsystem() *cobra.Command {
+func runsystem(dc *gg.Context) *cobra.Command {
 
 	return &cobra.Command{
 
 		Use: "runsys",
 		RunE: func(cmd *cobra.Command, args []string) error {
+
 			sys_to_run := system{
 				axiom:      "a",
-				iterations: 6,
+				iterations: iters,
 				vars:       rules,
 				constants:  constantset,
+				drawing:    dc,
+				outfile:    outfile,
 			}
 			sys_to_run.run()
+
 			return nil
 		},
 	}
 }
 func main() {
+	const W = 1024
+	const H = 1024
+	dc := gg.NewContext(W, H)
+	dc.SetRGB(0, 0, 0)
+	dc.Clear()
+
 	cmd := &cobra.Command{
 		Use:          "lsys",
 		Short:        "Lsystem grammer generation",
 		SilenceUsage: true,
 	}
-	cmd.AddCommand(runsystem())
+	runsys := runsystem(dc)
+	runsys.Flags().IntVarP(&iters, "iterations", "i", 1, "number of iterations")
+	runsys.Flags().StringVarP(&outfile, "outfile", "o", "snart.png", "png file to write to")
+	cmd.AddCommand(runsys)
 	if err := cmd.Execute(); err != nil {
 		os.Exit(1)
 	}
