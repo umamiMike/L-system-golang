@@ -28,26 +28,58 @@ var fullgrammer string
 
 type system struct {
 	vars       map[string]string
-	constants  map[string]struct{}
+	constants  []string
 	axiom      string //the start, must be one of the keys in the rules
 	iterations int
 	drawing    *gg.Context
 	outfile    string
 }
 
-func (s system) run() {
-	substring := s.axiom
-	for n := 0; n <= s.iterations; n++ {
-		for _, r := range substring {
-			_, ok := s.constants[string(r)] //checking constants map for existence
-			if ok {
-				substring += string(r)
-			} else {
-				substring += rules[string(r)]
-			}
-			fmt.Println(substring)
+func contains(arr []string, str string) bool {
+	for _, a := range arr {
+		if a == str {
+			return true
 		}
 	}
+	return false
+}
+
+func iterate(s string) string {
+	var newstr string
+
+	for _, r := range s { //for each character in the string
+		str := string(r)
+
+		if contains(constantset, str) {
+			newstr = str
+		} else {
+			newstr = rules[string(r)]
+		}
+	}
+
+	return newstr
+}
+
+func (s system) run() {
+
+	start := s.axiom
+
+	var alliterations []string
+	alliterations = append(alliterations, start)
+
+	//for every iteration
+	//j
+	for n := 0; n <= s.iterations; n++ {
+
+		substring := alliterations[n]
+
+		newsubstring := iterate(substring)
+		substring = substring + newsubstring
+		alliterations = append(alliterations, substring)
+	}
+
+	fmt.Println(alliterations)
+
 	s.drawing.SavePNG(s.outfile)
 }
 
@@ -55,10 +87,10 @@ func runsystem(dc *gg.Context) *cobra.Command {
 
 	return &cobra.Command{
 
-		Use: "runsys",
+		Use: "run",
 		RunE: func(cmd *cobra.Command, args []string) error {
 
-			sys_to_run := system{
+			sys := system{
 				axiom:      "a",
 				iterations: iters,
 				vars:       rules,
@@ -66,7 +98,8 @@ func runsystem(dc *gg.Context) *cobra.Command {
 				drawing:    dc,
 				outfile:    outfile,
 			}
-			sys_to_run.run()
+
+			sys.run()
 
 			return nil
 		},
@@ -75,6 +108,7 @@ func runsystem(dc *gg.Context) *cobra.Command {
 func main() {
 	const W = 1024
 	const H = 1024
+
 	dc := gg.NewContext(W, H)
 	dc.SetRGB(0, 0, 0)
 	dc.Clear()

@@ -7,15 +7,15 @@ import (
 )
 
 var rules = map[string]string{
-	"a": "b",
-	"b": "<a b",
+	"a": "ab",
+	"b": "a",
 }
-var constantset = map[string]struct{}{
-	" ": struct{}{},
-	"_": struct{}{},
-	"!": struct{}{},
-	"<": struct{}{},
-	".": struct{}{},
+var constantset = []string{
+	" ",
+	"_",
+	"!",
+	"<",
+	".",
 }
 
 /*
