@@ -3,13 +3,19 @@ http://www.cs.unm.edu/~joel/PaperFoldingFractal/L-system-rules.html
 
 An L-system is a formal grammar consisting of 4 parts:
 
-A set of variables: symbols that can be replaced by production rules (see below). In the Fractal Grower software, variables can be any of the 26 lower case English letters a through z
+A set of variables: symbols that can be replaced by production rules (see
+below). In the Fractal Grower software, variables can be any of the 26 lower
+case English letters a through z
 
-A set of constants: symbols that do not get replaced. In the Fractal Grower software, the constants are any of the following symbols: !, [, ], +, -.
+A set of constants: symbols that do not get replaced. In the Fractal Grower
+software, the constants are any of the following symbols: !, [, ], +, -.
 
-A single axiom which is a string composed of some number of variables and/or constants. The axiom is the initial state of the system.
+A single axiom which is a string composed of some number of variables and/or
+constants. The axiom is the initial state of the system.
 
-A set of production rules defining the way variables can be replaced with combinations of constants and other variables. A production consists of two strings - the predecessor and the successor.
+A set of production rules defining the way variables can be replaced with
+combinations of constants and other variables. A production consists of two
+strings - the predecessor and the successor.
 
 */
 
