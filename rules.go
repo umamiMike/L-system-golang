@@ -1,14 +1,14 @@
 package main
 
 import (
-	"math/rand"
-
 	"github.com/fogleman/gg"
+	"math/rand"
 )
 
 var rules = map[string]string{
 	"a": "ab",
-	"b": "a",
+	"b": "ca",
+	"c": "ba",
 }
 var constantset = []string{
 	" ",
@@ -20,7 +20,6 @@ var constantset = []string{
 
 /*
 what i want to draw is based on the grammer produced above
-
 a will move forward
 
 */

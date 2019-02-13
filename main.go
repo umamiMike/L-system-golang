@@ -52,7 +52,6 @@ func contains(arr []string, str string) bool {
 
 func iterate(s string) string {
 	var newstr string
-
 	for _, r := range s { //for each character in the string
 		str := string(r)
 
@@ -62,14 +61,12 @@ func iterate(s string) string {
 			newstr = rules[string(r)]
 		}
 	}
-
 	return newstr
 }
 
 func (s system) run() {
 
 	start := s.axiom
-
 	var alliterations []string
 	alliterations = append(alliterations, start)
 
@@ -78,15 +75,17 @@ func (s system) run() {
 	for n := 0; n <= s.iterations; n++ {
 
 		substring := alliterations[n]
-
 		newsubstring := iterate(substring)
 		substring = substring + newsubstring
 		alliterations = append(alliterations, substring)
 	}
 
-	fmt.Println(alliterations)
-
-	s.drawing.SavePNG(s.outfile)
+	for _, v := range alliterations {
+		fmt.Print(v + " ")
+	}
+	fmt.Println("\n")
+	//fmt.Println(alliterations)
+	//s.drawing.SavePNG(s.outfile)
 }
 
 func runsystem(dc *gg.Context) *cobra.Command {
@@ -104,14 +103,13 @@ func runsystem(dc *gg.Context) *cobra.Command {
 				drawing:    dc,
 				outfile:    outfile,
 			}
-
 			sys.run()
-
 			return nil
 		},
 	}
 }
 func main() {
+
 	const W = 1024
 	const H = 1024
 
