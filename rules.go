@@ -1,9 +1,6 @@
 package main
 
-import (
-	"github.com/fogleman/gg"
-	"math/rand"
-)
+import ()
 
 var rules = map[string]string{
 	"a": "ab",

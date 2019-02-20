@@ -70,8 +70,6 @@ func (s system) run() {
 	var alliterations []string
 	alliterations = append(alliterations, start)
 
-	//for every iteration
-	//j
 	for n := 0; n <= s.iterations; n++ {
 
 		substring := alliterations[n]
@@ -83,9 +81,6 @@ func (s system) run() {
 	for _, v := range alliterations {
 		fmt.Print(v + " ")
 	}
-	fmt.Println("\n")
-	//fmt.Println(alliterations)
-	//s.drawing.SavePNG(s.outfile)
 }
 
 func runsystem(dc *gg.Context) *cobra.Command {
