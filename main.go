@@ -22,13 +22,10 @@ strings - the predecessor and the successor.
 package main
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
 	"os"
 )
-
-var iters int
-var outfile string
-var fullgrammer string
 
 type system struct {
 	vars       map[string]string
@@ -37,32 +34,9 @@ type system struct {
 	outfile    string
 }
 
-/*
-returns bool if the carray of strings contains the string supplied by the second arg
-*/
-func contains(arr []string, str string) bool {
-	for _, a := range arr {
-		if a == str {
-			return true
-		}
-	}
-	return false
-}
-
-func iterate(s string) string {
-	var newstr string
-	for _, r := range s { //for each character in the string
-		var algea_set = algea_set()
-		str := string(r)
-
-		if contains(algea_set.constants, str) {
-			newstr = str
-		} else {
-			newstr = algea_set.rules[string(r)]
-		}
-	}
-	return newstr
-}
+var iters int
+var outfile string
+var input_axiom string
 
 func runsystem() *cobra.Command {
 
@@ -70,9 +44,8 @@ func runsystem() *cobra.Command {
 
 		Use: "run",
 		RunE: func(cmd *cobra.Command, args []string) error {
-
 			sys := system{
-				axiom:      "a",
+				axiom:      input_axiom,
 				iterations: iters,
 				outfile:    outfile,
 			}
@@ -81,19 +54,24 @@ func runsystem() *cobra.Command {
 		},
 	}
 }
+
 func main() {
 
-	cmd := &cobra.Command{
+	outfile := "test.png"
+
+	RootCmd := &cobra.Command{
 		Use:          "lsys",
 		Short:        "Lsystem grammer generation",
 		SilenceUsage: true,
 	}
+
 	runsys := runsystem()
 	runsys.Flags().IntVarP(&iters, "iterations", "i", 1, "number of iterations")
 	runsys.Flags().StringVarP(&outfile, "outfile", "o", "snart.png", "png file to write to")
+	runsys.Flags().StringVarP(&input_axiom, "axiom", "a", "a", "which axiom in the ruleset to begin with")
 
-	cmd.AddCommand(runsys)
-	if err := cmd.Execute(); err != nil {
+	RootCmd.AddCommand(runsys)
+	if err := RootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
 }
