@@ -32,7 +32,6 @@ var fullgrammer string
 
 type system struct {
 	vars       map[string]string
-	constants  []string
 	axiom      string //the start, must be one of the keys in the rules
 	iterations int    //the number of times to recurse through the set
 	outfile    string
@@ -53,12 +52,13 @@ func contains(arr []string, str string) bool {
 func iterate(s string) string {
 	var newstr string
 	for _, r := range s { //for each character in the string
+		var algea_set = algea_set()
 		str := string(r)
 
-		if contains(constantset, str) {
+		if contains(algea_set.constants, str) {
 			newstr = str
 		} else {
-			newstr = rules[string(r)]
+			newstr = algea_set.rules[string(r)]
 		}
 	}
 	return newstr
@@ -74,8 +74,6 @@ func runsystem() *cobra.Command {
 			sys := system{
 				axiom:      "a",
 				iterations: iters,
-				vars:       rules,
-				constants:  constantset,
 				outfile:    outfile,
 			}
 			sys.run()
