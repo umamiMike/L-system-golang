@@ -22,8 +22,6 @@ strings - the predecessor and the successor.
 package main
 
 import (
-	"fmt"
-	"github.com/fogleman/gg"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -36,11 +34,13 @@ type system struct {
 	vars       map[string]string
 	constants  []string
 	axiom      string //the start, must be one of the keys in the rules
-	iterations int
-	drawing    *gg.Context
+	iterations int    //the number of times to recurse through the set
 	outfile    string
 }
 
+/*
+returns bool if the carray of strings contains the string supplied by the second arg
+*/
 func contains(arr []string, str string) bool {
 	for _, a := range arr {
 		if a == str {
@@ -64,26 +64,7 @@ func iterate(s string) string {
 	return newstr
 }
 
-func (s system) run() {
-
-	start := s.axiom
-	var alliterations []string
-	alliterations = append(alliterations, start)
-
-	for n := 0; n <= s.iterations; n++ {
-
-		substring := alliterations[n]
-		newsubstring := iterate(substring)
-		substring = substring + newsubstring
-		alliterations = append(alliterations, substring)
-	}
-
-	for _, v := range alliterations {
-		fmt.Print(v + " ")
-	}
-}
-
-func runsystem(dc *gg.Context) *cobra.Command {
+func runsystem() *cobra.Command {
 
 	return &cobra.Command{
 
@@ -95,7 +76,6 @@ func runsystem(dc *gg.Context) *cobra.Command {
 				iterations: iters,
 				vars:       rules,
 				constants:  constantset,
-				drawing:    dc,
 				outfile:    outfile,
 			}
 			sys.run()
@@ -105,21 +85,15 @@ func runsystem(dc *gg.Context) *cobra.Command {
 }
 func main() {
 
-	const W = 1024
-	const H = 1024
-
-	dc := gg.NewContext(W, H)
-	dc.SetRGB(0, 0, 0)
-	dc.Clear()
-
 	cmd := &cobra.Command{
 		Use:          "lsys",
 		Short:        "Lsystem grammer generation",
 		SilenceUsage: true,
 	}
-	runsys := runsystem(dc)
+	runsys := runsystem()
 	runsys.Flags().IntVarP(&iters, "iterations", "i", 1, "number of iterations")
 	runsys.Flags().StringVarP(&outfile, "outfile", "o", "snart.png", "png file to write to")
+
 	cmd.AddCommand(runsys)
 	if err := cmd.Execute(); err != nil {
 		os.Exit(1)

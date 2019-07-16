@@ -10,6 +10,7 @@ what i want to draw is based on the grammer produced above
 a will move forward
 
 */
+
 var canvas = struct {
 	W float64
 	H float64
@@ -20,7 +21,10 @@ var canvas = struct {
 
 func drawSpike(s string, iter int) string {
 
-	dc := gg.NewContext(int(canvas.W), int(canvas.H))
+	const W = 1024
+	const H = 1024
+
+	dc := gg.NewContext(W, H)
 	dc.SetRGB(0, 0, 0)
 	dc.Clear()
 	for i := 0; i < iter; i++ {
