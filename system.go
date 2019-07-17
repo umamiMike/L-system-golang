@@ -1,9 +1,10 @@
 package main
 
 import "fmt"
+import "strings"
 
 /*
-returns bool if the carray of strings contains the string supplied by the second arg
+returns bool if the array of strings contains the string supplied by the second arg
 */
 func contains(arr []string, str string) bool {
 	for _, a := range arr {
@@ -31,19 +32,19 @@ func iterate(s string) string {
 func (s system) run() {
 
 	fmt.Println(s.outfile)
+
 	start := s.axiom
 	var alliterations []string
 	alliterations = append(alliterations, start)
+	fmt.Printf("the value of start is %v, and the value of alliterations is %v", start, alliterations)
 
 	for n := 0; n <= s.iterations; n++ {
-
 		substring := alliterations[n]
-		newsubstring := iterate(substring)
-		substring = substring + newsubstring
+		substring = substring + iterate(substring)
 		alliterations = append(alliterations, substring)
 	}
 
-	for _, v := range alliterations {
-		fmt.Println(v + " ")
-	}
+	drawSpike(s.outfile)
+	write(strings.Join(alliterations, " "))
+
 }

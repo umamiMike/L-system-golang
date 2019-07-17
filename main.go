@@ -22,7 +22,6 @@ strings - the predecessor and the successor.
 package main
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -56,8 +55,6 @@ func runsystem() *cobra.Command {
 }
 
 func main() {
-
-	outfile := "test.png"
 
 	RootCmd := &cobra.Command{
 		Use:          "lsys",

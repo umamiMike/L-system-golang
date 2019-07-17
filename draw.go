@@ -11,16 +11,15 @@ a will move forward
 
 */
 
-var canvas = struct {
-	W float64
-	H float64
-}{
-	W: 1024,
-	H: 1024,
-}
-
-func drawSpike(s string, iter int) string {
-
+func drawSpike(fname string) string {
+	iter := 7
+	var canvas = struct {
+		W float64
+		H float64
+	}{
+		W: 1024,
+		H: 1024,
+	}
 	const W = 1024
 	const H = 1024
 
@@ -29,6 +28,7 @@ func drawSpike(s string, iter int) string {
 	dc.Clear()
 	for i := 0; i < iter; i++ {
 		//create random color
+
 		r := rand.Float64()
 		g := rand.Float64()
 		b := rand.Float64()
@@ -44,6 +44,14 @@ func drawSpike(s string, iter int) string {
 		dc.DrawLine(x1, y1, x2, y2)
 		dc.Stroke()
 	}
-	dc.SavePNG(s)
-	return s
+	dc.SavePNG(fname)
+	return fname
+}
+
+type Vector struct {
+	X, Y, Z float64
+}
+
+type Color struct {
+	R, G, B, A float64
 }
