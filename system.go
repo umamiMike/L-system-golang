@@ -1,6 +1,5 @@
 package main
 
-import "fmt"
 import "strings"
 
 /*
@@ -15,36 +14,32 @@ func contains(arr []string, str string) bool {
 	return false
 }
 
-func iterate(s string) string {
+func iterate(s string, ruleset *ruleset) string {
 	var newstr string
 	for _, r := range s { //for each character in the string
-		var algea_set = algea_set()
 		str := string(r)
 
-		if contains(algea_set.constants, str) {
+		if contains(ruleset.constants, str) {
 			newstr = str
 		} else {
-			newstr = algea_set.rules[string(r)]
+			newstr = ruleset.rules[string(r)]
 		}
 	}
 	return newstr
 }
 func (s system) run() {
 
-	fmt.Println(s.outfile)
-
 	start := s.axiom
 	var alliterations []string
 	alliterations = append(alliterations, start)
-	fmt.Printf("the value of start is %v, and the value of alliterations is %v", start, alliterations)
 
 	for n := 0; n <= s.iterations; n++ {
 		substring := alliterations[n]
-		substring = substring + iterate(substring)
+		substring = substring + iterate(substring, fractal_plant())
 		alliterations = append(alliterations, substring)
 	}
 
-	drawSpike(s.outfile)
+	//	drawSpike(s.outfile)
 	write(strings.Join(alliterations, " "))
 
 }
