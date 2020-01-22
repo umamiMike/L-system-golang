@@ -31,7 +31,7 @@ func NewBadger(storageDir string) *Badger {
 func write(iteration string) {
 	// Open the Badger database located in the /tmp/badger directory.
 	// It will be created if it doesn't exist.
-	db := NewBadger("./tmp/badger")
+	db := NewBadger("/tmp/badger")
 
 	db.Del("spam")
 	err := db.Set("spam", []byte(iteration))
@@ -109,6 +109,7 @@ func (storage *Badger) runStorageGC() {
 	}
 }
 func (storage *Badger) storageGC() {
+
 again:
 	err := storage.db.RunValueLogGC(0.5)
 	if err == nil {
