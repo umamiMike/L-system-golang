@@ -1,7 +1,8 @@
 package main
 
-//import "strings"
-import "fmt"
+import "strings"
+
+//import "fmt"
 
 /*
 returns bool if the array of strings contains the string supplied by the second arg
@@ -36,13 +37,14 @@ func (s system) run() {
 
 	for n := 0; n <= s.iterations; n++ {
 		substring := alliterations[n]
-		substring = substring + iterate(substring, algea_set())
+		substring = substring + iterate(substring, select_ruleset(s.rules))
 		alliterations = append(alliterations, substring)
 	}
-	fmt.Println(s.iterations)
-	fmt.Println(alliterations)
+	//fmt.Println(s.iterations)
+	//fmt.Println(alliterations)
 
 	//	drawSpike(s.outfile)
-	//write(strings.Join(alliterations, " "))
+	write("fookin_data", strings.Join(alliterations, " "))
+	println(string(get("fookin_data")))
 
 }

@@ -7,11 +7,21 @@ type ruleset struct {
 	constants []string
 }
 
+func select_ruleset(rs_name string) *ruleset {
+	switch rs_name {
+	case "algea":
+		return algea_set()
+	default:
+		println("no set selected")
+		return algea_set()
+	}
+}
+
 func algea_set() *ruleset {
-	rules := ruleset{}
-	rules.rules = map[string]string{"a": "ab", "b": "ca", "c": "ba"}
-	rules.constants = []string{" ", "_", "!", "<", "."}
-	return &rules
+	rs := ruleset{}
+	rs.rules = map[string]string{"a": "ab", "b": "ca", "c": "ba"}
+	rs.constants = []string{" ", "_", "!", "<", "."}
+	return &rs
 }
 func koch_curve() *ruleset {
 	rules := ruleset{}
@@ -32,6 +42,7 @@ func koch_curve() *ruleset {
 //control the evolution of the curve. The square bracket "[" corresponds to
 //saving the current values for position and angle, which are restored when the
 //corresponding "]" is executed.
+
 func fractal_plant() *ruleset {
 
 	rules := ruleset{}
