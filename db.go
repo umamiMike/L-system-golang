@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/dgraph-io/badger"
 	"log"
 	"time"
@@ -28,23 +27,24 @@ func NewBadger(storageDir string) *Badger {
 	return storage
 }
 
-func write(iteration string) {
-	// Open the Badger database located in the /tmp/badger directory.
-	// It will be created if it doesn't exist.
+func write(key string, data string) {
 	db := NewBadger("/tmp/badger")
-
-	db.Del("spam")
-	err := db.Set("spam", []byte(iteration))
+	err := db.Set(key, []byte(data))
 	if err != nil {
 		log.Fatal(err)
 	}
-	val, err := db.Get("spam")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("\n\n\nand the value from the db is ..... drumroll please .... %v \n\n\n", string(val))
 
 	db.db.Close()
+}
+
+func get(key string) []byte {
+	db := NewBadger("/tmp/badger")
+	val, err := db.Get(key)
+	if err != nil {
+		log.Fatal(err)
+	}
+	db.db.Close()
+	return val
 }
 
 // Del deletes a key
