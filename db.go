@@ -36,7 +36,6 @@ func write(key string, data string) {
 
 	db.db.Close()
 }
-
 func get(key string) []byte {
 	db := NewBadger("/tmp/badger")
 	val, err := db.Get(key)

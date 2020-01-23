@@ -31,11 +31,8 @@ type system struct {
 	axiom      string //the start, must be one of the keys in the rules
 	iterations int    //the number of times to recurse through the set
 	outfile    string
+	rules      string
 }
-
-var iters int
-var outfile string
-var input_axiom string
 
 func runsystem() *cobra.Command {
 
@@ -43,12 +40,6 @@ func runsystem() *cobra.Command {
 
 		Use: "run",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			sys := system{
-				axiom:      input_axiom,
-				iterations: iters,
-				outfile:    outfile,
-			}
-			sys.run()
 			return nil
 		},
 	}
@@ -61,13 +52,15 @@ func main() {
 		Short:        "Lsystem grammer generation",
 		SilenceUsage: true,
 	}
-
+	var s system
 	runsys := runsystem()
-	runsys.Flags().IntVarP(&iters, "iterations", "i", 1, "number of iterations")
-	runsys.Flags().StringVarP(&outfile, "outfile", "o", "snart.png", "png file to write to")
-	runsys.Flags().StringVarP(&input_axiom, "axiom", "a", "a", "which axiom in the ruleset to begin with")
+	runsys.Flags().IntVarP(&s.iterations, "iterations", "i", 1, "number of iterations")
+	runsys.Flags().StringVarP(&s.outfile, "outfile", "o", "snart.png", "png file to write to")
+	runsys.Flags().StringVarP(&s.axiom, "axiom", "a", "a", "which axiom in the ruleset to begin with")
+	runsys.Flags().StringVarP(&s.rules, "rules", "r", "algea", "which ruleset would you like to use?")
 
 	RootCmd.AddCommand(runsys)
+
 	if err := RootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
