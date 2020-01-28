@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/fogleman/gg"
 	"math/rand"
+
+	"github.com/fogleman/gg"
 )
 
 /*
@@ -10,6 +11,14 @@ what i want to draw is based on the grammer produced above
 a will move forward
 
 */
+
+type Vector struct {
+	X, Y, Z float64
+}
+
+type Color struct {
+	R, G, B, A float64
+}
 
 func drawSpike(fname string) string {
 	iter := 7
@@ -46,12 +55,4 @@ func drawSpike(fname string) string {
 	}
 	dc.SavePNG(fname)
 	return fname
-}
-
-type Vector struct {
-	X, Y, Z float64
-}
-
-type Color struct {
-	R, G, B, A float64
 }

@@ -1,13 +1,20 @@
-package main
+package db
 
 import (
-	"github.com/dgraph-io/badger"
 	"log"
 	"time"
+
+	"github.com/dgraph-io/badger"
 )
 
 type Badger struct {
 	db *badger.DB
+}
+
+type Operation struct {
+	Key   string
+	Value []byte
+	Op    byte
 }
 
 func NewBadger(storageDir string) *Badger {
@@ -27,14 +34,12 @@ func NewBadger(storageDir string) *Badger {
 	return storage
 }
 
-func write(key string, data string) {
-	db := NewBadger("/tmp/badger")
+func (db *Badger) Write(key string, data string) {
 	err := db.Set(key, []byte(data))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	db.db.Close()
 }
 func get(key string) []byte {
 	db := NewBadger("/tmp/badger")
@@ -76,12 +81,6 @@ func (storage *Badger) Set(key string, value []byte) (err error) {
 		err := txn.Set([]byte(key), value)
 		return err
 	})
-}
-
-type Operation struct {
-	Key   string
-	Value []byte
-	Op    byte
 }
 
 // DbStorage represent base db storage interface

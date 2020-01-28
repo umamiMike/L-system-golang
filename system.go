@@ -1,9 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"os"
+	"strings"
+
+	"github.com/umamimike/L-system-golang/db"
 )
+
+var dbinstance = db.NewBadger("/tmp/badger")
 
 type System struct {
 	axiom      string //the start, must be one of the keys in the rules
@@ -22,7 +26,6 @@ func (s System) generate() []string {
 	if err != nil {
 		os.Exit(1)
 	}
-	fmt.Println(rs)
 
 	for n := 0; n <= s.iterations; n++ {
 		substring := alliterations[n]
@@ -30,7 +33,7 @@ func (s System) generate() []string {
 		alliterations = append(alliterations, substring)
 	}
 	//	drawSpike(s.outfile)
-	//write("fookin_data", strings.Join(alliterations, " "))
+	dbinstance.Write("fookin_data", strings.Join(alliterations, " "))
 	//println(string(get("fookin_data")))
 	return alliterations
 }
