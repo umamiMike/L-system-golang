@@ -1,12 +1,43 @@
 package main
 
-import "strings"
+import (
+	"fmt"
+	"os"
+)
 
-//import "fmt"
+type System struct {
+	axiom      string //the start, must be one of the keys in the rules
+	iterations int    //the number of times to recurse through the set
+	outfile    string
+	rules      string
+}
+
+func (s System) generate() []string {
+
+	start := s.axiom // one of the keys contained in the ruleste rules map
+	var alliterations []string
+	alliterations = append(alliterations, start)
+
+	rs, err := get_ruleset(s.rules)
+	if err != nil {
+		os.Exit(1)
+	}
+	fmt.Println(rs)
+
+	for n := 0; n <= s.iterations; n++ {
+		substring := alliterations[n]
+		substring = substring + iterate(substring, rs)
+		alliterations = append(alliterations, substring)
+	}
+	//	drawSpike(s.outfile)
+	//write("fookin_data", strings.Join(alliterations, " "))
+	//println(string(get("fookin_data")))
+	return alliterations
+}
 
 /*
-returns bool if the array of strings contains the string supplied by the second arg
-*/
+ * utility if a string slice contains the string return true
+ */
 func contains(arr []string, str string) bool {
 	for _, a := range arr {
 		if a == str {
@@ -29,22 +60,7 @@ func iterate(s string, ruleset *ruleset) string {
 	}
 	return newstr
 }
-func (s system) run() {
 
-	start := s.axiom
-	var alliterations []string
-	alliterations = append(alliterations, start)
-
-	for n := 0; n <= s.iterations; n++ {
-		substring := alliterations[n]
-		substring = substring + iterate(substring, select_ruleset(s.rules))
-		alliterations = append(alliterations, substring)
-	}
-	//fmt.Println(s.iterations)
-	//fmt.Println(alliterations)
-
-	//	drawSpike(s.outfile)
-	write("fookin_data", strings.Join(alliterations, " "))
-	println(string(get("fookin_data")))
-
+func get_ruleset(rs string) (*ruleset, error) {
+	return select_ruleset(rs)
 }

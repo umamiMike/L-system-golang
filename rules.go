@@ -1,19 +1,20 @@
 package main
 
-import ()
+import "errors"
 
 type ruleset struct {
 	rules     map[string]string
 	constants []string
 }
 
-func select_ruleset(rs_name string) *ruleset {
+func select_ruleset(rs_name string) (*ruleset, error) {
 	switch rs_name {
 	case "algea":
-		return algea_set()
+		return algea_set(), nil
+	case "koch_curve":
+		return koch_curve(), nil
 	default:
-		println("no set selected")
-		return algea_set()
+		return nil, errors.New("please select a valid ruleset")
 	}
 }
 
@@ -30,21 +31,8 @@ func koch_curve() *ruleset {
 	return &rules
 }
 
-//Example 7: Fractal plant
-//See also: Barnsley fern
-//variables : X F
-//constants : + − [ ]
-//start : X
-//rules : (X → F+[[X]-X]-F[-FX]+X), (F → FF)
-//angle : 25°
-//Here, F means "draw forward", − means "turn left 25°", and + means "turn
-//right 25°". X does not correspond to any drawing action and is used to
-//control the evolution of the curve. The square bracket "[" corresponds to
-//saving the current values for position and angle, which are restored when the
-//corresponding "]" is executed.
-
+// ./notes.txt
 func fractal_plant() *ruleset {
-
 	rules := ruleset{}
 	rules.rules = map[string]string{"X": "F+[[X]-X]-F[-FX]+X", "F": "FF"}
 	rules.constants = []string{"+", "[", "]", "-"}
