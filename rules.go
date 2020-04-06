@@ -13,6 +13,10 @@ func select_ruleset(rs_name string) (*ruleset, error) {
 		return algea_set(), nil
 	case "koch_curve":
 		return koch_curve(), nil
+	case "plant":
+		return fractal_plant(), nil
+	case "test":
+		return test(), nil
 	default:
 		return nil, errors.New("please select a valid ruleset")
 	}
@@ -35,6 +39,18 @@ func koch_curve() *ruleset {
 func fractal_plant() *ruleset {
 	rules := ruleset{}
 	rules.rules = map[string]string{"X": "F+[[X]-X]-F[-FX]+X", "F": "FF"}
+	rules.constants = []string{"+", "[", "]", "-"}
+	return &rules
+}
+
+func test() *ruleset {
+	rules := ruleset{}
+	rules.rules = map[string]string{
+		"f": "fuck",
+		"u": "ugly",
+		"c": "core",
+		"k": "fuck",
+	}
 	rules.constants = []string{"+", "[", "]", "-"}
 	return &rules
 }

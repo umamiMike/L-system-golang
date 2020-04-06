@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 )
 
@@ -14,21 +15,23 @@ type System struct {
 func (s System) generate() []string {
 
 	start := s.axiom // one of the keys contained in the ruleste rules map
+
 	var alliterations []string
+
 	alliterations = append(alliterations, start)
 
 	rs, err := get_ruleset(s.rules)
+
 	if err != nil {
 		os.Exit(1)
 	}
 
 	for n := 0; n <= s.iterations; n++ {
 		substring := alliterations[n]
-		substring = substring + iterate(substring, rs)
-		alliterations = append(alliterations, substring)
+		newsubstring := substring + iterate(substring, rs)
+		alliterations = append(alliterations, newsubstring)
 	}
-	//	drawSpike(s.outfile)
-	//println(string(get("fookin_data")))
+	fmt.Print("the rules are:\t", s.rules, "\nand the system is:\t ", s, "\nthe ruleset is:\t", rs)
 	return alliterations
 }
 
@@ -55,6 +58,7 @@ func iterate(s string, ruleset *ruleset) string {
 			newstr = ruleset.rules[string(r)]
 		}
 	}
+	fmt.Println(newstr)
 	return newstr
 }
 
