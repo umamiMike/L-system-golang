@@ -1,6 +1,12 @@
 package main
 
-import "errors"
+import (
+
+"errors"
+
+"bytes"
+)
+
 
 type ruleset struct {
 	rules     map[string]string
@@ -55,4 +61,21 @@ func test() *ruleset {
 	}
 	rules.constants = []string{"+", "[", "]", "-"}
 	return &rules
+}
+
+
+func (rs *ruleset) Rules() string {
+	var rb bytes.Buffer
+	rb.WriteString("rule characters: ")
+	for k, _ := range rs.rules {
+		rb.WriteString(k)
+		rb.WriteString(", ")
+	}
+	rb.WriteString("constants: ")
+	for _, v := range rs.constants {
+rb.WriteString(v)
+		rb.WriteString(", ")
+	}
+
+return rb.String()
 }

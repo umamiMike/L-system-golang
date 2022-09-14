@@ -2,32 +2,31 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"strconv"
-	"time"
+	"strings"
+	"flag"
 )
 
 
 func main() {
-	rules := os.Args[1]
-	fmt.Println(rules)
-	axiom := os.Args[2]
+	rules := flag.String("rules", "algea", "rules (algea koch_curve plant test)") 
+	axiom := flag.String("axiom", "F", "axiom, the seed value")
 
-	iters, _ := strconv.Atoi(os.Args[3])
-	fmt.Println("iters are ", iters)
+	iterPtr := flag.Int("iterations", 1, " an int")
 
-	start := time.Now()
-	fmt.Println("starting time")
+	flag.Parse()
+	// taking a ruleset
+	// returns a string listing all of the rules and constants
+	rs, _ := select_ruleset(*rules);
+
+	fmt.Println("rs.rules.Keys: " , rs.Rules())
 	sys := System{
-		iterations: iters,
-		rules:      rules,
-		axiom:      axiom,
+		iterations: *iterPtr,
+		rules:      *rules,
+		axiom:      *axiom,
 	}
-	fmt.Println("sys", sys)
 
 
 	grammer := sys.generate()
-	fmt.Println("\n\n", grammer)
-	fmt.Println(time.Since(start))
-	drawSpike("sooky.png", 500, 500, "")
+	fmt.Println(strings.Join(grammer, ""))
+	// drawSpike("sooky.png", 500, 500, "")
 }
