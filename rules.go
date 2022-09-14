@@ -38,7 +38,9 @@ func koch_curve() *ruleset {
 // ./notes.txt
 func fractal_plant() *ruleset {
 	rules := ruleset{}
-	rules.rules = map[string]string{"X": "F+[[X]-X]-F[-FX]+X", "F": "FF"}
+	rules.rules = map[string]string{"X": "F+[[X]-X]-F[-FX]+X", 
+	"F": "FF",
+}
 	rules.constants = []string{"+", "[", "]", "-"}
 	return &rules
 }
@@ -46,10 +48,10 @@ func fractal_plant() *ruleset {
 func test() *ruleset {
 	rules := ruleset{}
 	rules.rules = map[string]string{
-		"f": "fuck",
-		"u": "ugly",
+		"f": "foougc",
+		"u": "ugly to the core",
 		"c": "core",
-		"k": "fuck",
+		"k": "kooky",
 	}
 	rules.constants = []string{"+", "[", "]", "-"}
 	return &rules

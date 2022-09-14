@@ -14,24 +14,34 @@ type System struct {
 
 func (s System) generate() []string {
 
-	start := s.axiom // one of the keys contained in the ruleste rules map
+	start := s.axiom
+	fmt.Println("start ", start )
+
 
 	var alliterations []string
 
 	alliterations = append(alliterations, start)
+fmt.Println("alliterations :" , alliterations )
+
 
 	rs, err := get_ruleset(s.rules)
+
 
 	if err != nil {
 		os.Exit(1)
 	}
 
+	fmt.Println("s.iterations : " , s.iterations )
+
+
 	for n := 0; n <= s.iterations; n++ {
 		substring := alliterations[n]
 		newsubstring := substring + iterate(substring, rs)
+
 		alliterations = append(alliterations, newsubstring)
 	}
 	fmt.Print("the rules are:\t", s.rules, "\nand the system is:\t ", s, "\nthe ruleset is:\t", rs)
+
 	return alliterations
 }
 
@@ -49,6 +59,8 @@ func contains(arr []string, str string) bool {
 
 func iterate(s string, ruleset *ruleset) string {
 	var newstr string
+	fmt.Println("s : " , s )
+
 	for _, r := range s { //for each character in the string
 		str := string(r)
 
@@ -58,7 +70,6 @@ func iterate(s string, ruleset *ruleset) string {
 			newstr = ruleset.rules[string(r)]
 		}
 	}
-	fmt.Println(newstr)
 	return newstr
 }
 
