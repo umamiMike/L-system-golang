@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 	"flag"
 )
 
@@ -17,16 +16,14 @@ func main() {
 	// taking a ruleset
 	// returns a string listing all of the rules and constants
 	rs, _ := select_ruleset(*rules);
-
 	fmt.Println("rs.rules.Keys: " , rs.Rules())
 	sys := System{
 		iterations: *iterPtr,
 		rules:      *rules,
 		axiom:      *axiom,
 	}
-
-
 	grammer := sys.generate()
-	fmt.Println(strings.Join(grammer, ""))
-	// drawSpike("sooky.png", 500, 500, "")
+	fmt.Println(grammer.String())
+	// fmt.Println(strings.Join(grammer, ""))
+	// drawImage("sookyb.png", 1500, 1500, strings.Join(grammer, ""))
 }

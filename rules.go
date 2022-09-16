@@ -1,16 +1,13 @@
 package main
 
 import (
-
-"errors"
-
-"bytes"
+	"bytes"
+	"errors"
 )
-
 
 type ruleset struct {
 	rules     map[string]string
-	constants []string
+	constants string
 }
 
 func select_ruleset(rs_name string) (*ruleset, error) {
@@ -31,38 +28,42 @@ func select_ruleset(rs_name string) (*ruleset, error) {
 func algea_set() *ruleset {
 	rs := ruleset{}
 	rs.rules = map[string]string{"a": "ab", "b": "ca", "c": "ba"}
-	rs.constants = []string{" ", "_", "!", "<", "."}
+	rs.constants = "_!<."
 	return &rs
 }
 func koch_curve() *ruleset {
 	rules := ruleset{}
 	rules.rules = map[string]string{"F": "F+F-F-F+F"}
-	rules.constants = []string{"+", "-"}
+	rules.constants = "+-"
 	return &rules
 }
 
 // ./notes.txt
 func fractal_plant() *ruleset {
 	rules := ruleset{}
-	rules.rules = map[string]string{"X": "F+[[X]-X]-F[-FX]+X", 
-	"F": "FF",
-}
-	rules.constants = []string{"+", "[", "]", "-"}
+	rules.rules = map[string]string{"X": "F+[[X]-X]-F[-FX]+X",
+		"F": "FF",
+	}
+	rules.constants = "+[]-"
 	return &rules
 }
 
 func test() *ruleset {
 	rules := ruleset{}
 	rules.rules = map[string]string{
-		"f": "foougc",
-		"u": "ugly to the core",
-		"c": "core",
-		"k": "kooky",
+		"a":   "bat ",
+		"b":   "bet ",
+		"n":   "ab ",
+		"t":   "tan ",
+		"bet": "root down ",
 	}
-	rules.constants = []string{"+", "[", "]", "-"}
+	rules.constants = "+[]-"
 	return &rules
 }
 
+func (rs *ruleset) Contains(s string) bool {
+	return false
+}
 
 func (rs *ruleset) Rules() string {
 	var rb bytes.Buffer
@@ -73,9 +74,9 @@ func (rs *ruleset) Rules() string {
 	}
 	rb.WriteString("constants: ")
 	for _, v := range rs.constants {
-rb.WriteString(v)
+		rb.WriteString(string(v))
 		rb.WriteString(", ")
 	}
 
-return rb.String()
+	return rb.String()
 }

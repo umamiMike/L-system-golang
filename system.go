@@ -1,7 +1,9 @@
 package main
 
 import (
-	"os"
+	"bytes"
+	"fmt"
+	"strings"
 )
 
 type System struct {
@@ -11,56 +13,38 @@ type System struct {
 	rules      string
 }
 
-func (s System) generate() []string {
+func (s System) generate() bytes.Buffer {
 
-	start := s.axiom
-
-	var alliterations []string
-	alliterations = append(alliterations, start)
-	rs, err := get_ruleset(s.rules)
-
-
-	if err != nil {
-		os.Exit(1)
-	}
-
-
-
+	// every time we iterate
+	// we run through each character of the string
+	var bs bytes.Buffer
+	bs.WriteString(s.axiom)
+	ruls, err := get_ruleset(s.rules)
 	for n := 0; n <= s.iterations; n++ {
-		substring := alliterations[n]
-		newsubstring := substring + iterate(substring, rs)
+		for _, v := range bs.String() {
 
-		alliterations = append(alliterations, newsubstring)
-	}
+			if err != nil {
+				fmt.Println("failed to get ruleset")
+			}
+			//if the rules map has a key then
+			// write the value to the buffer
+			// if ruls.rules[string(v)] == "" {
+			// 	bs.WriteString(ruls.rules[string(v)])
+			// }
 
-	return alliterations
-}
+			if val, ok := ruls.rules[string(v)]; ok {
+				bs.WriteString(val)
 
-/*
- * utility if a string slice contains the string return true
- */
-func contains(arr []string, str string) bool {
-	for _, a := range arr {
-		if a == str {
-			return true
+			}
+
+			if strings.Contains(ruls.constants, string(v)) {
+				bs.WriteString(string(v))
+			}
 		}
+
 	}
-	return false
-}
 
-func iterate(s string, ruleset *ruleset) string {
-	var newstr string
-
-	for _, r := range s { //for each character in the string
-		str := string(r)
-
-		if contains(ruleset.constants, str) {
-			newstr = str
-		} else {
-			newstr = ruleset.rules[string(r)]
-		}
-	}
-	return newstr
+	return bs
 }
 
 func get_ruleset(rs string) (*ruleset, error) {
