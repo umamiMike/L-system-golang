@@ -11,7 +11,7 @@ type System struct {
 	rules      string
 }
 
-func (s System) generate() strings.Builder {
+func (s System) generate() string {
 
 	// every time we iterate
 	// we run through each character of the string
@@ -24,10 +24,13 @@ func (s System) generate() strings.Builder {
 	}
 	repl := strings.NewReplacer(ruleslice...)
 
-	for n := 0; n <= s.iterations; n++ {
-		bs.WriteString(repl.Replace(bs.String()))
+	for n := 0; n <= s.iterations-1; n++ {
+		in := bs.String()
+		bs.Reset()
+		new := repl.Replace(in)
+		bs.WriteString(new)
 	}
-	return bs
+	return bs.String()
 }
 
 func get_ruleset(rs string) (*ruleset, error) {
