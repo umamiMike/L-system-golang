@@ -40,7 +40,6 @@ func TestCantor(t *testing.T) {
 	}
 	output := sys.generate()
 	valid := `ababbbaba`
-	// assert.EqualValues(t, ctv, output)
 	assert.Equal(t, valid, output)
 
 }

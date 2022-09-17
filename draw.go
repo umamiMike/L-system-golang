@@ -1,15 +1,45 @@
 package main
 
 import (
-	"github.com/fogleman/gg"
+	"fmt"
 	"math/rand"
+
+	"github.com/fogleman/gg"
 )
 
 /*
 what i want to draw is based on the grammer produced above
 a will move forward
 
+
+Binary tree drawing rules
+    0: draw a line segment ending in a leaf
+    1: draw a line segment
+    [: push position and angle, turn left 45 degrees
+    ]: pop position and angle, turn right 45 degrees
+
 */
+
+func move_forward() {
+	fmt.Println("moving forward")
+
+}
+
+func draw_forward() {
+	fmt.Println("drawing forward")
+
+}
+
+func turn_left() {
+	fmt.Println("turning left")
+
+}
+func turn_right() {
+	fmt.Println("turning right")
+
+}
+
+var pencil = map[string]func(){"a": move_forward, "b": draw_forward, "[": turn_left, "]": turn_right}
 
 type Vector struct {
 	X, Y, Z float64
@@ -36,7 +66,7 @@ func newCanvas(w int, h int) Canvas {
 
 }
 
-func drawImage(fname string, w int, h int, instructions string ) string {
+func drawImage(fname string, w int, h int, instructions string) string {
 	canvas := newCanvas(w, h)
 	dc := canvas.dc
 	// dc.SetRGB(0, 0, 0)
@@ -46,9 +76,16 @@ func drawImage(fname string, w int, h int, instructions string ) string {
 		//y2 := rand.Float64() * float64(canvas.h)
 		rw := rand.Float64() * float64(canvas.w)
 		rh := rand.Float64() * float64(canvas.h)
-	dc.SetRGBA(1,1,1, .3)
-	dc.LoadFontFace("/usr/share/fonts/truetype/freefont/FreeMono.ttf", 22 )
-		dc.DrawString(string(v),rw, rh )
+		dc.SetRGBA(1, 1, 1, .3)
+		dc.LoadFontFace("/usr/share/fonts/truetype/freefont/FreeMono.ttf", 22)
+		dc.DrawString(string(v), rw, rh)
+
+		for _, v := range instructions {
+			pencil[string(v)]()
+
+		}
+		//using the pencil
+		// translate the grammer using the functions
 
 	}
 	dc.SavePNG(fname)
@@ -56,5 +93,4 @@ func drawImage(fname string, w int, h int, instructions string ) string {
 
 }
 
-//draw a line 
-
+//draw a line

@@ -1,9 +1,13 @@
 package main
 
-// func TestDrawOutputsFile(t *testing.T) {
-// 	fname := "testOutputFile.png"
-// 	outfile := drawSpike(fname)
-// 	assert.Equal(t, fname, outfile, "spike of comparison")
-// 	os.Open(fname)
+import (
+	"testing"
 
-// }
+	"github.com/stretchr/testify/assert"
+)
+
+func TestDrawOutputsFile(t *testing.T) {
+	fname := "testOutputFile.png"
+	outfile := drawImage(fname, 500, 500, "ab[]a")
+	assert.Equal(t, fname, outfile, "spike of comparison")
+}
