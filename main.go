@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 )
 
 func main() {
@@ -18,7 +19,7 @@ func main() {
 		rules:      *rules,
 		axiom:      *axiom,
 	}
-	sys.generate()
+	fmt.Print(sys.generate())
 
 	// drawImage("sookyb.png", 1500, 1500, strings.Join(grammer, ""))
 }
