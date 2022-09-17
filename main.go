@@ -1,32 +1,24 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	"strconv"
-	"time"
+	"flag"
 )
 
-//var dbinstance = db.NewBadger("./tmp/badger")
-
 func main() {
-	rules := os.Args[1]
-	axiom := os.Args[2]
-	iters, _ := strconv.Atoi(os.Args[3])
+	rules := flag.String("rules", "algea", "rules (algea koch_curve plant test)")
+	axiom := flag.String("axiom", "F", "axiom, the seed value")
 
-	fmt.Print(rules)
-	start := time.Now()
+	iterPtr := flag.Int("iterations", 1, " an int")
+
+	flag.Parse()
+	// taking a ruleset
+	// returns a string listing all of the rules and constants
 	sys := System{
-		iterations: iters,
-		rules:      rules,
-		axiom:      axiom,
+		iterations: *iterPtr,
+		rules:      *rules,
+		axiom:      *axiom,
 	}
+	sys.generate()
 
-	grammer := sys.generate()
-	fmt.Println("\n\n", grammer)
-	fmt.Println(time.Since(start))
-	drawSpike("sooky.png", 500, 500)
-
-	//dbinstance.Write("fookin_data", strings.Join(grammer, " "))
-
+	// drawImage("sookyb.png", 1500, 1500, strings.Join(grammer, ""))
 }

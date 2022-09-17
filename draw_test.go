@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -9,8 +8,6 @@ import (
 
 func TestDrawOutputsFile(t *testing.T) {
 	fname := "testOutputFile.png"
-	outfile := drawSpike(fname)
+	outfile := drawImage(fname, 500, 500, "ab[]a")
 	assert.Equal(t, fname, outfile, "spike of comparison")
-	os.Open(fname)
-
 }
