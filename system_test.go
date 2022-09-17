@@ -1,18 +1,37 @@
 package main
 
 import (
+	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestIterate(t *testing.T) {
+func TestAlgea(t *testing.T) {
 
 	sys := System{
-		iterations: 10,
+		iterations: 7,
 		rules:      "algea",
 		axiom:      "a",
 	}
-	assert.True(t, sys.generate())
+	var bb strings.Builder
+	output := sys.generate()
+	fmt.Println(output.String())
+	assert.IsType(t, output, bb)
+
+}
+
+func TestTest(t *testing.T) {
+
+	sys := System{
+		iterations: 2,
+		rules:      "test",
+		axiom:      "a",
+	}
+	var bb strings.Builder
+	output := sys.generate()
+	fmt.Println(output.String())
+	assert.IsType(t, output, bb)
 
 }

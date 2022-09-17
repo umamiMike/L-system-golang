@@ -27,7 +27,7 @@ func select_ruleset(rs_name string) (*ruleset, error) {
 
 func algea_set() *ruleset {
 	rs := ruleset{}
-	rs.rules = map[string]string{"a": "ab", "b": "ca", "c": "ba"}
+	rs.rules = map[string]string{"a": "ab", "b": "a"}
 	rs.constants = "_!<."
 	return &rs
 }
@@ -51,11 +51,11 @@ func fractal_plant() *ruleset {
 func test() *ruleset {
 	rules := ruleset{}
 	rules.rules = map[string]string{
-		"a":   "bat ",
-		"b":   "bet ",
-		"n":   "ab ",
-		"t":   "tan ",
-		"bet": "root down ",
+		"a":   "bat",
+		"b":   "bet",
+		"n":   "ab",
+		"t":   "tan",
+		"bet": "rootdown",
 	}
 	rules.constants = "+[]-"
 	return &rules

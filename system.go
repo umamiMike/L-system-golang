@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 )
@@ -13,37 +12,24 @@ type System struct {
 	rules      string
 }
 
-func (s System) generate() bytes.Buffer {
+func (s System) generate() strings.Builder {
 
 	// every time we iterate
 	// we run through each character of the string
-	var bs bytes.Buffer
+	var bs strings.Builder
 	bs.WriteString(s.axiom)
-	ruls, err := get_ruleset(s.rules)
-	for n := 0; n <= s.iterations; n++ {
-		for _, v := range bs.String() {
-
-			if err != nil {
-				fmt.Println("failed to get ruleset")
-			}
-			//if the rules map has a key then
-			// write the value to the buffer
-			// if ruls.rules[string(v)] == "" {
-			// 	bs.WriteString(ruls.rules[string(v)])
-			// }
-
-			if val, ok := ruls.rules[string(v)]; ok {
-				bs.WriteString(val)
-
-			}
-
-			if strings.Contains(ruls.constants, string(v)) {
-				bs.WriteString(string(v))
-			}
-		}
-
+	rs, _ := get_ruleset(s.rules)
+	ruleslice := []string{}
+	for k, v := range rs.rules {
+		ruleslice = append(ruleslice, k, v)
 	}
+	repl := strings.NewReplacer(ruleslice...)
+	fmt.Println("repl: ", repl)
 
+	for n := 0; n <= s.iterations; n++ {
+		fmt.Println(repl.Replace(bs.String()))
+		bs.WriteString(repl.Replace(bs.String()))
+	}
 	return bs
 }
 
