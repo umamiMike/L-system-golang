@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -24,10 +23,8 @@ func (s System) generate() strings.Builder {
 		ruleslice = append(ruleslice, k, v)
 	}
 	repl := strings.NewReplacer(ruleslice...)
-	fmt.Println("repl: ", repl)
 
 	for n := 0; n <= s.iterations; n++ {
-		fmt.Println(repl.Replace(bs.String()))
 		bs.WriteString(repl.Replace(bs.String()))
 	}
 	return bs

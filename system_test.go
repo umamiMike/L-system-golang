@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 
@@ -17,7 +16,6 @@ func TestAlgea(t *testing.T) {
 	}
 	var bb strings.Builder
 	output := sys.generate()
-	fmt.Println(output.String())
 	assert.IsType(t, output, bb)
 
 }
@@ -31,7 +29,19 @@ func TestTest(t *testing.T) {
 	}
 	var bb strings.Builder
 	output := sys.generate()
-	fmt.Println(output.String())
 	assert.IsType(t, output, bb)
+
+}
+
+func TestKoch(t *testing.T) {
+	sys := System{
+		iterations: 9,
+		rules:      "koch_curve",
+		axiom:      "F",
+	}
+	var cb strings.Builder
+	output := sys.generate()
+	assert.IsType(t, output, cb)
+	assert.True(t, true)
 
 }
