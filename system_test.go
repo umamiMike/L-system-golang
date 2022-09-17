@@ -28,18 +28,32 @@ func TestKoch(t *testing.T) {
 	}
 	output := sys.generate()
 	valid := `F+F-F-F+F+F+F-F-F+F-F+F-F-F+F-F+F-F-F+F+F+F-F-F+F`
+	assert.Equal(t, valid, output)
+
+}
+
+func TestCantor(t *testing.T) {
+	sys := System{
+		iterations: 2,
+		rules:      "cantor",
+		axiom:      "a",
+	}
+	output := sys.generate()
+	valid := `ababbbaba`
 	// assert.EqualValues(t, ctv, output)
 	assert.Equal(t, valid, output)
 
 }
 
-// func TestTest(t *testing.T) {
+func TestBinaryTree(t *testing.T) {
+	sys := System{
+		iterations: 2,
+		rules:      "binary_tree",
+		axiom:      "0",
+	}
+	output := sys.generate()
+	valid := `11[1[0]0]1[0]0`
+	// assert.EqualValues(t, ctv, output)
+	assert.Equal(t, valid, output)
 
-// 	sys := System{
-// 		iterations: 2,
-// 		rules:      "test",
-// 		axiom:      "a",
-// 	}
-// 	output := sys.generate()
-// 	assert.True(t, true)
-// }
+}

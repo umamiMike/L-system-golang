@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -22,6 +23,7 @@ func (s System) generate() string {
 	for k, v := range rs.rules {
 		ruleslice = append(ruleslice, k, v)
 	}
+	fmt.Println("ruleset is: ", ruleslice)
 	repl := strings.NewReplacer(ruleslice...)
 
 	for n := 0; n <= s.iterations-1; n++ {

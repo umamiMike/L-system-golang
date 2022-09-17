@@ -18,6 +18,10 @@ func select_ruleset(rs_name string) (*ruleset, error) {
 		return koch_curve(), nil
 	case "plant":
 		return fractal_plant(), nil
+	case "cantor":
+		return cantor_set(), nil
+	case "binary_tree":
+		return binary_tree(), nil
 	case "test":
 		return test(), nil
 	default:
@@ -38,13 +42,27 @@ func koch_curve() *ruleset {
 	return &rules
 }
 
-// ./notes.txt
+func cantor_set() *ruleset {
+	rules := ruleset{}
+	rules.rules = map[string]string{"a": "aba", "b": "bbb"}
+	rules.constants = ""
+	return &rules
+}
 func fractal_plant() *ruleset {
 	rules := ruleset{}
 	rules.rules = map[string]string{"X": "F+[[X]-X]-F[-FX]+X",
 		"F": "FF",
 	}
 	rules.constants = "+[]-"
+	return &rules
+}
+
+func binary_tree() *ruleset {
+	rules := ruleset{}
+	rules.rules = map[string]string{"1": "11",
+		"0": "1[0]0",
+	}
+	rules.constants = "[]"
 	return &rules
 }
 
